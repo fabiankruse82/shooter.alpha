@@ -4,7 +4,6 @@ This project demonstrates how to create a cubic room with first-person shooter c
 
 Install dependencies:
 
-Code kopieren
 npm install
 Run the project:
 
