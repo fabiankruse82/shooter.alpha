@@ -1,0 +1,26 @@
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Set html and body to full height */
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Prevent scrolling */
+}
+
+/* Set root element to full height */
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+/* Ensure the canvas takes full height and width */
+canvas {
+  display: block; /* Remove default inline styling of canvas */
+  width: 100%;
+  height: 100%;
+}
