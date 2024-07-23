@@ -23,18 +23,18 @@ const FirstPersonControls = ({ cubeRef }) => {
 
   useFrame(() => {
     if (cubeRef.current) {
-      const position = cubeRef.current.translation();
-      if (keys.current['KeyW']) position.z -= moveSpeed;
-      if (keys.current['KeyS']) position.z += moveSpeed;
-      if (keys.current['KeyA']) position.x -= moveSpeed;
-      if (keys.current['KeyD']) position.x += moveSpeed;
-      if (keys.current['Space']) position.y += moveSpeed;
+      const { x, y, z } = cubeRef.current.translation();
 
-      cubeRef.current.setTranslation(position, true);
+      // Move the cube
+      if (keys.current['KeyW']) cubeRef.current.setTranslation({ x, y, z: z - moveSpeed }, true);
+      if (keys.current['KeyS']) cubeRef.current.setTranslation({ x, y, z: z + moveSpeed }, true);
+      if (keys.current['KeyA']) cubeRef.current.setTranslation({ x: x - moveSpeed, y, z }, true);
+      if (keys.current['KeyD']) cubeRef.current.setTranslation({ x: x + moveSpeed, y, z }, true);
+      if (keys.current['Space']) cubeRef.current.setTranslation({ x, y: y + moveSpeed, z }, true);
 
-      // Update camera position to follow the cube
-      camera.position.set(position.x, position.y + 1, position.z - 3);
-      camera.lookAt(position.x, position.y, position.z);
+      // Attach the camera to the cube
+      camera.position.set(x, y + 0.5, z);
+      camera.lookAt(x, y + 0.5, z + 1);
     }
   });
 
