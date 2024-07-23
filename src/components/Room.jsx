@@ -1,6 +1,7 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Physics, RigidBody, CuboidCollider } from '@react-three/rapier';
 import { Box } from '@react-three/drei';
+import PlayerCube from './PlayerCube';
 
 const Room = ({ cubeRef }) => {
   return (
@@ -56,43 +57,11 @@ const Room = ({ cubeRef }) => {
           </Box>
         </RigidBody>
 
-        {/* Center Cube */}
-        <RigidBody ref={cubeRef} position={[0, 0.5, 0]}>
-          <Box args={[1, 1, 1]}>
-            <meshStandardMaterial color="white" />
-            <TextMesh position={[0, 0.6, 0]} text="U" />
-            <TextMesh position={[-0.6, 0, 0]} text="L" rotation={[0, 0, Math.PI / 2]} />
-            <TextMesh position={[0, 0, 0.6]} text="F" rotation={[Math.PI / 2, 0, 0]} />
-            <TextMesh position={[0.6, 0, 0]} text="R" rotation={[0, 0, -Math.PI / 2]} />
-            <TextMesh position={[0, 0, -0.6]} text="B" rotation={[-Math.PI / 2, 0, 0]} />
-            <TextMesh position={[0, -0.6, 0]} text="D" />
-          </Box>
-        </RigidBody>
+        {/* Player Cube */}
+        <PlayerCube ref={cubeRef} />
       </Physics>
     </>
   );
-};
-
-const TextMesh = ({ position, text, rotation = [0, 0, 0] }) => (
-  <mesh position={position} rotation={rotation}>
-    <planeGeometry args={[1, 1]} />
-    <meshStandardMaterial>
-      <canvasTexture attach="map" image={createTextCanvas(text)} />
-    </meshStandardMaterial>
-  </mesh>
-);
-
-const createTextCanvas = (text) => {
-  const canvas = document.createElement('canvas');
-  const context = canvas.getContext('2d');
-  canvas.width = 256;
-  canvas.height = 256;
-  context.font = 'bold 200px sans-serif';
-  context.fillStyle = 'black';
-  context.textAlign = 'center';
-  context.textBaseline = 'middle';
-  context.fillText(text, canvas.width / 2, canvas.height / 2);
-  return canvas;
 };
 
 export default Room;
