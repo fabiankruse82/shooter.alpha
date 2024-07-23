@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import Room from './components/Room';
 import FirstPersonControls from './components/FirstPersonControls';
 
 function App() {
+  const cubeRef = useRef();
+  
   return (
     <Canvas>
       {/* Set up a perspective camera */}
@@ -17,9 +19,9 @@ function App() {
       <pointLight position={[10, 10, 10]} />
       
       {/* Render the Room component */}
-      <Room />
+      <Room cubeRef={cubeRef} />
       {/* Render the FirstPersonControls component */}
-      <FirstPersonControls />
+      <FirstPersonControls cubeRef={cubeRef} />
     </Canvas>
   );
 }

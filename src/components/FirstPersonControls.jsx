@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
-import { useThree } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
 
-const FirstPersonControls = () => {
+const FirstPersonControls = ({ cubeRef }) => {
   const { camera } = useThree(); // Access the camera from the Three.js context
   const moveSpeed = 0.2; // Speed of movement
   const keys = useRef({}); // Object to keep track of pressed keys
@@ -21,22 +21,22 @@ const FirstPersonControls = () => {
     };
   }, []);
 
-  useEffect(() => {
-    // Function to handle movement based on pressed keys
-    const handleMove = () => {
-      if (keys.current['KeyW']) camera.position.z -= moveSpeed;
-      if (keys.current['KeyS']) camera.position.z += moveSpeed;
-      if (keys.current['KeyA']) camera.position.x -= moveSpeed;
-      if (keys.current['KeyD']) camera.position.x += moveSpeed;
-      if (keys.current['Space']) camera.position.y += moveSpeed;
-    };
+  useFrame(() => {
+    if (cubeRef.current) {
+      const position = cubeRef.current.translation();
+      if (keys.current['KeyW']) position.z -= moveSpeed;
+      if (keys.current['KeyS']) position.z += moveSpeed;
+      if (keys.current['KeyA']) position.x -= moveSpeed;
+      if (keys.current['KeyD']) position.x += moveSpeed;
+      if (keys.current['Space']) position.y += moveSpeed;
 
-    // Set an interval to continuously check for key presses and move the camera
-    const interval = setInterval(handleMove, 10);
+      cubeRef.current.setTranslation(position, true);
 
-    // Cleanup the interval on component unmount
-    return () => clearInterval(interval);
-  }, []);
+      // Update camera position to follow the cube
+      camera.position.set(position.x, position.y + 1, position.z - 3);
+      camera.lookAt(position.x, position.y, position.z);
+    }
+  });
 
   return null; // This component doesn't render anything
 };
